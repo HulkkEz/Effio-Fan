@@ -2,86 +2,92 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Fan Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Effio Fan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div class="app-container">
-        
         <section id="screen-conn" class="screen active">
             <div class="conn-content">
-                <i class="fa-solid fa-fan icon-spin"></i>
-                <h1>Smart Fan</h1>
-                <button class="btn-primary" id="btn-connect">CONECTAR DISPOSITIVO</button>
+                <i class="fa-solid fa-fan icon-fan-giant"></i>
+                <h1 class="brand-name">Effio Fan</h1>
+                <p class="brand-tagline">Inteligencia y Frescura</p>
+                <button class="btn-primary-large" id="btn-connect">
+                    <i class="fa-solid fa-link"></i> CONECTAR DISPOSITIVO
+                </button>
             </div>
         </section>
 
         <section id="screen-dash" class="screen hidden">
             <header>
-                <div class="status-pill">
-                    <i class="fa-solid fa-thermometer-half"></i> <span id="current-temp">24</span>°C
+                <div class="status-info">
+                    <i class="fa-solid fa-temperature-three-quarters"></i> <span><span id="current-temp">24</span>°C</span>
                 </div>
-                <button class="btn-off" onclick="location.reload()"><i class="fa-solid fa-power-off"></i></button>
+                <h2 class="header-title">Effio Fan</h2>
+                <button class="btn-power" onclick="location.reload()"><i class="fa-solid fa-power-off"></i></button>
             </header>
 
             <div class="fan-display">
-                <div id="fan-blades" class="fan-blades">
-                    <div class="blade"></div>
-                    <div class="blade"></div>
-                    <div class="blade"></div>
-                    <div class="fan-center"></div>
+                <div class="fan-guard">
+                    <div id="fan-blades" class="fan-blades">
+                        <div class="blade"></div>
+                        <div class="blade"></div>
+                        <div class="blade"></div>
+                        <div class="fan-center-cap"></div>
+                    </div>
                 </div>
-                <div class="fan-stand"></div>
+                <div class="fan-neck"></div>
+                <div class="fan-base-platform"></div>
             </div>
 
-            <div class="control-card">
-                <h3>Velocidad</h3>
-                <div class="speed-grid">
-                    <button class="speed-opt active" onclick="changeSpeed('off', this)">OFF</button>
-                    <button class="speed-opt" onclick="changeSpeed('low', this)">1</button>
-                    <button class="speed-opt" onclick="changeSpeed('med', this)">2</button>
-                    <button class="speed-opt" onclick="changeSpeed('high', this)">3</button>
+            <div class="section-card">
+                <h3>Control de Velocidad</h3>
+                <div class="speed-row">
+                    <button class="speed-btn active" onclick="setSpeed('off', this)">OFF</button>
+                    <button class="speed-btn" onclick="setSpeed('low', this)">BAJO</button>
+                    <button class="speed-btn" onclick="setSpeed('med', this)">MEDIO</button>
+                    <button class="speed-btn" onclick="setSpeed('high', this)">RÁPIDO</button>
                 </div>
             </div>
 
-            <div class="tab-container">
-                <button id="tab-hour" class="tab-btn active" onclick="switchMode('hour')">
-                    <i class="fa-solid fa-clock"></i> Por Hora
+            <div class="mode-selector">
+                <button id="tab-hour" class="tab-btn active" onclick="toggleMode('hour')">
+                    <i class="fa-solid fa-clock"></i> POR HORA
                 </button>
-                <button id="tab-temp" class="tab-btn" onclick="switchMode('temp')">
-                    <i class="fa-solid fa-temperature-arrow-up"></i> Por Temp
+                <button id="tab-temp" class="tab-btn" onclick="toggleMode('temp')">
+                    <i class="fa-solid fa-thermometer-half"></i> POR TEMP
                 </button>
             </div>
 
-            <div class="control-card lower-panel">
-                
-                <div id="panel-hour" class="mode-panel">
-                    <div class="alarm-ui">
-                        <div class="time-block">
-                            <span>INICIO</span>
-                            <input type="time" id="start-time" value="08:00">
+            <div class="config-panel">
+                <div id="panel-hour" class="mode-content">
+                    <div class="timer-flex">
+                        <div class="time-item">
+                            <label>ENCENDIDO</label>
+                            <input type="time" id="time-start" value="08:00">
                         </div>
-                        <div class="time-block">
-                            <span>FIN</span>
-                            <input type="time" id="end-time" value="18:00">
+                        <div class="v-divider"></div>
+                        <div class="time-item">
+                            <label>APAGADO</label>
+                            <input type="time" id="time-end" value="22:00">
                         </div>
                     </div>
                 </div>
 
-                <div id="panel-temp" class="mode-panel hidden">
-                    <div class="temp-selector">
-                        <span>Encender si la temperatura supera:</span>
-                        <div class="temp-input-row">
-                            <input type="number" id="target-temp" value="28" min="15" max="45">
-                            <span class="unit">°C</span>
+                <div id="panel-temp" class="mode-content hidden">
+                    <div class="temp-control">
+                        <label>UMBRAL DE ACTIVACIÓN</label>
+                        <div class="temp-input-wrap">
+                            <input type="number" id="temp-val" value="28">
+                            <span class="celsius-label">°C</span>
                         </div>
                     </div>
                 </div>
 
-                <button class="btn-primary" onclick="saveConfig()">GUARDAR PROGRAMACIÓN</button>
+                <button class="btn-save-action" onclick="saveData()">GUARDAR AJUSTES</button>
             </div>
         </section>
     </div>
