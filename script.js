@@ -1,26 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
     const fanBlades = document.getElementById('fan-blades');
 
-    // Conectar App
-    document.getElementById('btn-connect').addEventListener('click', () => {
-        document.getElementById('screen-conn').classList.add('hidden');
-        document.getElementById('screen-dash').classList.remove('hidden');
-    });
+    // 1. Lógica de Conexión con Pantalla de Carga
+    window.connectDevice = (method) => {
+        const connScreen = document.getElementById('screen-conn');
+        
+        // Crear overlay de carga
+        const loader = document.createElement('div');
+        loader.className = 'loading-overlay';
+        loader.innerHTML = `
+            <div class="spinner"></div>
+            <p style="margin-top:15px; color:var(--dark-teal); font-weight:bold;">Conectando vía ${method}...</p>
+        `;
+        connScreen.appendChild(loader);
 
-    // Control de Velocidad (Basado en clases CSS para el Blur)
+        // Simular tiempo de respuesta del ESP32 (1.5 segundos)
+        setTimeout(() => {
+            loader.remove();
+            document.getElementById('screen-conn').classList.add('hidden');
+            document.getElementById('screen-dash').classList.remove('hidden');
+        }, 1500);
+    };
+
+    // 2. Control del Modal de WiFi
+    window.openWifiModal = () => document.getElementById('modal-wifi').classList.remove('hidden');
+    window.closeWifiModal = () => document.getElementById('modal-wifi').classList.add('hidden');
+
+    window.saveWifi = () => {
+        const ssid = document.getElementById('wifi-ssid').value;
+        const pass = document.getElementById('wifi-pass').value;
+
+        if (!ssid || !pass) {
+            alert("Por favor, completa ambos campos.");
+            return;
+        }
+
+        // Aquí se enviaría el comando al ESP32
+        alert(`Configuración enviada:\nSSID: ${ssid}\nEl ventilador se reiniciará para conectar.`);
+        closeWifiModal();
+    };
+
+    // 3. Reset de Fábrica
+    window.factoryReset = () => {
+        const confirmacion = confirm("¿Estás seguro? Se borrarán las redes guardadas y el dispositivo volverá a modo AP.");
+        if (confirmacion) {
+            alert("Enviando comando de RESET... Desconectando.");
+            location.reload(); // Recarga la app al inicio
+        }
+    };
+
+    // 4. Control de Velocidad (Original)
     window.setSpeed = (level, btn) => {
-        // UI
         document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
-        // Animación
-        fanBlades.className = 'fan-blades'; // Reset
+        fanBlades.className = 'fan-blades'; 
         if (level !== 'off') {
             fanBlades.classList.add('spin-' + level);
         }
     };
 
-    // Cambio de Modo (Azul)
+    // 5. Cambio de Modo (Original)
     window.toggleMode = (mode) => {
         const tabHour = document.getElementById('tab-hour');
         const tabTemp = document.getElementById('tab-temp');
@@ -40,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Guardar Configuración
+    // 6. Guardar Configuración (Original)
     window.saveData = () => {
         const isHour = document.getElementById('tab-hour').classList.contains('active');
         if (isHour) {
@@ -53,12 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Simulación de Variación Térmica
+    // Simulación de temperatura
     setInterval(() => {
         const tempSpan = document.getElementById('current-temp');
-        let current = parseInt(tempSpan.innerText);
-        if (Math.random() > 0.8) {
-            tempSpan.innerText = current + (Math.random() > 0.5 ? 1 : -1);
+        if (tempSpan) {
+            let current = parseInt(tempSpan.innerText);
+            if (Math.random() > 0.8) {
+                tempSpan.innerText = current + (Math.random() > 0.5 ? 1 : -1);
+            }
         }
     }, 5000);
 });
