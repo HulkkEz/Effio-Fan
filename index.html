@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Effio Fan</title>
+    <title>Effio Fan Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,10 +14,17 @@
             <div class="conn-content">
                 <i class="fa-solid fa-fan icon-fan-giant"></i>
                 <h1 class="brand-name">Effio Fan</h1>
-                <p class="brand-tagline">Inteligencia y Frescura</p>
-                <button class="btn-primary-large" id="btn-connect">
-                    <i class="fa-solid fa-link"></i> CONECTAR DISPOSITIVO
-                </button>
+                <p class="brand-tagline">Seleccione método de conexión</p>
+                
+                <div class="conn-options">
+                    <button class="btn-primary-large" onclick="connectDevice('WiFi')">
+                        <i class="fa-solid fa-wifi"></i> CONECTAR POR WIFI
+                    </button>
+                    <div style="margin: 15px 0;"></div>
+                    <button class="btn-primary-large btn-bt" onclick="connectDevice('Bluetooth')">
+                        <i class="fa-brands fa-bluetooth-b"></i> CONECTAR POR BLUETOOTH
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -27,7 +34,10 @@
                     <i class="fa-solid fa-temperature-three-quarters"></i> <span><span id="current-temp">24</span>°C</span>
                 </div>
                 <h2 class="header-title">Effio Fan</h2>
-                <button class="btn-power" onclick="location.reload()"><i class="fa-solid fa-power-off"></i></button>
+                <div class="header-actions">
+                    <button class="btn-settings" onclick="openWifiModal()"><i class="fa-solid fa-gear"></i></button>
+                    <button class="btn-power" onclick="location.reload()"><i class="fa-solid fa-power-off"></i></button>
+                </div>
             </header>
 
             <div class="fan-display">
@@ -90,6 +100,25 @@
                 <button class="btn-save-action" onclick="saveData()">GUARDAR AJUSTES</button>
             </div>
         </section>
+
+        <div id="modal-wifi" class="modal hidden">
+            <div class="modal-content">
+                <h3><i class="fa-solid fa-wifi"></i> Ajustes de Red</h3>
+                <p>Configure la red para el ESP32</p>
+                <div class="input-group">
+                    <input type="text" id="wifi-ssid" placeholder="Nombre de Red (SSID)">
+                    <input type="password" id="wifi-pass" placeholder="Contraseña">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-save-action" onclick="saveWifi()">ACTUALIZAR WIFI</button>
+                    <button class="btn-cancel" onclick="closeWifiModal()">CANCELAR</button>
+                </div>
+                <hr class="modal-hr">
+                <button class="btn-reset" onclick="factoryReset()">
+                    <i class="fa-solid fa-triangle-exclamation"></i> RESET DE FÁBRICA
+                </button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
