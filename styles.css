@@ -4,101 +4,110 @@
     --blue-active: #007bff;
     --bg-app: #f4fbfb;
     --white: #ffffff;
+    --gray-light: #d1d9d9;
 }
-
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #121212;
-    display: flex; justify-content: center; align-items: center; 
-    height: 100vh; overflow: hidden;
+    margin: 0; font-family: 'Segoe UI', sans-serif;
+    background-color: #121212; display: flex; justify-content: center; align-items: center; height: 100vh;
 }
 
-/* Contenedor Adaptable */
 .app-container {
-    width: 100%; max-width: 400px; height: 100%; max-height: 800px;
-    background: var(--bg-app); border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    position: relative; overflow: hidden; display: flex; flex-direction: column;
+    width: 100%; max-width: 400px; height: 100%; max-height: 850px;
+    background: var(--bg-app); border-radius: 30px; position: relative; overflow: hidden; display: flex; flex-direction: column;
 }
 
-.screen { flex: 1; padding: 25px; display: flex; flex-direction: column; animation: fadeIn 0.3s; }
+.screen { flex: 1; padding: 20px; display: flex; flex-direction: column; animation: fadeIn 0.3s; }
 .hidden { display: none !important; }
 
-/* Pantalla Inicio - Logo Gigante */
-.icon-fan-main, .icon-fan-giant {
-    font-size: 140px; color: var(--teal); margin-bottom: 20px;
-    filter: drop-shadow(0 10px 15px rgba(0,150,136,0.3));
+/* HEADER */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
-.conn-content { margin: auto; text-align: center; width: 100%; }
-.brand-name { font-size: 2.5rem; color: var(--dark-teal); margin: 0; }
-.brand-tagline { color: #888; margin-bottom: 40px; }
+.header-left { 
+    background: var(--white); padding: 5px 12px; border-radius: 12px; 
+    color: var(--teal); font-weight: bold; display: flex; align-items: center; gap: 5px;
+}
+.header-title { font-size: 1.2rem; color: #333; margin: 0; flex: 1; text-align: center; }
+.btn-wifi-icon { 
+    background: var(--white); border: 1px solid #ddd; width: 35px; height: 35px; 
+    border-radius: 8px; color: #333; cursor: pointer;
+}
 
-/* Ventilador Pro */
-.fan-display { height: 220px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+/* PANTALLA INICIO */
+.conn-content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.icon-fan-giant { font-size: 80px; color: var(--teal); margin-bottom: 20px; }
+.brand-name { font-size: 2.5rem; color: #333; margin: 0; }
+.brand-tagline { color: #666; margin-bottom: 40px; }
+
+/* VENTILADOR */
+.fan-display { height: 170px; display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
 .fan-guard {
-    width: 180px; height: 180px; border-radius: 50%;
-    border: 6px solid var(--white); background: rgba(255,255,255,0.4);
-    display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    width: 140px; height: 140px; border-radius: 50%; border: 5px solid var(--white);
+    background: rgba(255,255,255,0.5); position: relative; display: flex; justify-content: center; align-items: center;
 }
-.fan-blades { width: 160px; height: 160px; position: relative; transition: filter 0.3s; }
-.blade {
-    position: absolute; width: 35px; height: 75px; background: var(--teal);
-    left: 62.5px; border-radius: 50% 50% 15% 15%; transform-origin: bottom center;
-}
+.fan-blades { width: 130px; height: 130px; position: relative; display: flex; justify-content: center; align-items: center; }
+.blade { position: absolute; width: 28px; height: 60px; background: var(--teal); border-radius: 50% 50% 15% 15%; transform-origin: center 100%; top: 5px; }
 .blade:nth-child(2) { transform: rotate(120deg); }
 .blade:nth-child(3) { transform: rotate(240deg); }
-.fan-center-cap {
-    position: absolute; width: 40px; height: 40px; background: #eee;
-    border-radius: 50%; top: 60px; left: 60px; z-index: 5; border: 4px solid var(--white);
-}
-.fan-neck { width: 12px; height: 40px; background: var(--white); }
-.fan-base-platform { width: 100px; height: 10px; background: var(--white); border-radius: 10px 10px 0 0; }
+.fan-center-cap { position: absolute; width: 30px; height: 30px; background: #eee; border-radius: 50%; z-index: 10; border: 3px solid var(--white); top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
-/* Animaciones */
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.spin-low { animation: spin 1s linear infinite; filter: blur(0px); }
-.spin-med { animation: spin 0.4s linear infinite; filter: blur(2px); }
-.spin-high { animation: spin 0.12s linear infinite; filter: blur(5px); }
-
-/* UI Dashboard */
-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.header-title { font-size: 1.2rem; color: var(--dark-teal); margin: 0; }
-.status-info { background: var(--white); padding: 8px 15px; border-radius: 20px; font-weight: bold; color: var(--teal); }
-
-.speed-row { display: flex; gap: 10px; margin-top: 10px; }
-.speed-btn {
-    flex: 1; padding: 14px 5px; border: 2px solid var(--teal); background: transparent;
-    color: var(--teal); border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.2s;
-}
+/* CONTROLES VELOCIDAD */
+.control-label { text-align: center; font-weight: bold; color: var(--teal); margin: 5px 0; font-size: 0.8rem; }
+.controls-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px; }
+.speed-btn { background: var(--white); border: none; padding: 12px 2px; border-radius: 12px; color: var(--teal); font-weight: bold; font-size: 0.7rem; }
 .speed-btn.active { background: var(--teal); color: white; }
+.btn-off.active { background: var(--blue-active); }
+.btn-osc-style { grid-column: span 4; background: #e0f2f1; padding: 12px; font-size: 0.85rem; }
+.btn-osc-style.on { background: #4caf50; color: white; }
 
-/* Tabs Azules */
-.mode-selector { display: flex; gap: 12px; margin: 25px 0 10px 0; }
-.tab-btn {
-    flex: 1; padding: 12px; border: none; border-radius: 12px;
-    background: #d1d9d9; color: white; font-weight: bold; cursor: pointer;
+/* MODO SELECTOR */
+.mode-selector { display: flex; gap: 10px; margin-bottom: 15px; }
+.tab-btn { flex: 1; padding: 10px; border: none; border-radius: 12px; background: var(--gray-light); color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 0.8rem;}
+.tab-btn.active { background: var(--blue-active); }
+
+/* PANEL DE HORA CORREGIDO */
+.config-panel { background: var(--white); border-radius: 35px; padding: 25px 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.timer-flex { display: flex; align-items: center; justify-content: space-around; margin-bottom: 20px; }
+.v-divider { width: 1px; height: 35px; background: #f0f0f0; }
+.time-item label { display: block; font-size: 0.65rem; color: #bbb; margin-bottom: 8px; font-weight: bold; }
+
+.input-row { display: flex; align-items: center; justify-content: center; }
+.input-row input[type="time"] { 
+    border: none; 
+    font-family: 'Courier New', monospace; 
+    font-size: 1.3rem; 
+    font-weight: bold; 
+    width: 110px; /* Ancho suficiente para que el icono nativo no tape números */
+    color: #333; 
+    outline: none; 
+    background: transparent;
+    padding-right: 5px;
 }
-.tab-btn.active { background: var(--blue-active); box-shadow: 0 4px 15px rgba(0,123,255,0.3); }
 
-/* Panel Config */
-.config-panel { background: var(--white); border-radius: 25px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-.timer-flex { display: flex; justify-content: space-around; align-items: center; }
-.time-item { text-align: center; }
-.time-item label { display: block; font-size: 0.65rem; color: #aaa; margin-bottom: 5px; }
-.time-item input { border: none; font-size: 1.3rem; font-weight: bold; color: #333; outline: none; background: transparent; }
-.v-divider { width: 1px; height: 40px; background: #eee; }
+/* PANEL TEMP */
+.temp-input-wrap { display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 15px; }
+.temp-input-wrap input { border: none; font-size: 2.2rem; font-weight: bold; width: 70px; text-align: center; color: var(--dark-teal); }
+.temp-input-wrap .unit { font-size: 1.2rem; color: #ccc; }
 
-.temp-control { text-align: center; }
-.temp-input-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; }
-.temp-input-wrap input { width: 70px; font-size: 1.8rem; border: none; font-weight: bold; text-align: center; color: var(--dark-teal); }
-.celsius-label { font-size: 1.5rem; font-weight: bold; color: #ccc; }
+.btn-save-action { width: 100%; padding: 15px; background: var(--teal); color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer; }
 
-.btn-primary-large, .btn-save-action {
-    background: var(--teal); color: white; border: none; padding: 18px;
-    border-radius: 20px; width: 100%; font-weight: bold; font-size: 1rem; cursor: pointer;
-}
-
+/* ANIMACIONES */
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.spin-low { animation: spin 1s linear infinite; }
+.spin-med { animation: spin 0.4s linear infinite; }
+.spin-high { animation: spin 0.15s linear infinite; }
+.oscillating { animation: sideToSide 3s ease-in-out infinite; }
+@keyframes sideToSide { 0%, 100% { transform: perspective(500px) rotateY(-20deg); } 50% { transform: perspective(500px) rotateY(20deg); } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* MODAL */
+.modal { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(4px); }
+.modal-content { background: var(--white); width: 85%; padding: 20px; border-radius: 20px; text-align: center; }
+.modal-content input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+.btn-primary-large { background: var(--teal); color: white; border: none; padding: 15px; border-radius: 15px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.btn-cancel { background: #eee; border: none; padding: 10px; width: 100%; margin-top: 5px; border-radius: 8px; cursor: pointer; }
+.btn-reset { border: 1px solid #ff5252; color: #ff5252; background: none; padding: 8px; width: 100%; margin-top: 15px; border-radius: 8px; cursor: pointer; }
