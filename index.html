@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Effio Fan Pro</title>
+    <title>Effio Fan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,34 +14,29 @@
             <div class="conn-content">
                 <i class="fa-solid fa-fan icon-fan-giant"></i>
                 <h1 class="brand-name">Effio Fan</h1>
-                <p class="brand-tagline">Seleccione método de conexión</p>
-                
-                <div class="conn-options">
-                    <button class="btn-primary-large" onclick="connectDevice('WiFi')">
-                        <i class="fa-solid fa-wifi"></i> CONECTAR POR WIFI
-                    </button>
-                    <div style="margin: 15px 0;"></div>
-                    <button class="btn-primary-large btn-bt" onclick="connectDevice('Bluetooth')">
-                        <i class="fa-brands fa-bluetooth-b"></i> CONECTAR POR BLUETOOTH
-                    </button>
-                </div>
+                <p class="brand-tagline">Inteligencia y Frescura</p>
+                <button class="btn-primary-large" id="btn-start">
+                    <i class="fa-solid fa-play"></i> INICIAR
+                </button>
             </div>
         </section>
 
         <section id="screen-dash" class="screen hidden">
-            <header>
-                <div class="status-info">
-                    <i class="fa-solid fa-temperature-three-quarters"></i> <span><span id="current-temp">24</span>°C</span>
+            <header class="main-header">
+                <div class="header-left">
+                    <i class="fa-solid fa-temperature-three-quarters"></i> 
+                    <span><span id="current-temp">24</span>°C</span>
                 </div>
                 <h2 class="header-title">Effio Fan</h2>
-                <div class="header-actions">
-                    <button class="btn-settings" onclick="openWifiModal()"><i class="fa-solid fa-gear"></i></button>
-                    <button class="btn-power" onclick="location.reload()"><i class="fa-solid fa-power-off"></i></button>
+                <div class="header-right">
+                    <button class="btn-wifi-icon" onclick="openWifiModal()">
+                        <i class="fa-solid fa-wifi"></i>
+                    </button>
                 </div>
             </header>
 
             <div class="fan-display">
-                <div class="fan-guard">
+                <div id="fan-container" class="fan-guard">
                     <div id="fan-blades" class="fan-blades">
                         <div class="blade"></div>
                         <div class="blade"></div>
@@ -49,18 +44,15 @@
                         <div class="fan-center-cap"></div>
                     </div>
                 </div>
-                <div class="fan-neck"></div>
-                <div class="fan-base-platform"></div>
             </div>
 
-            <div class="section-card">
-                <h3>Control de Velocidad</h3>
-                <div class="speed-row">
-                    <button class="speed-btn active" onclick="setSpeed('off', this)">OFF</button>
-                    <button class="speed-btn" onclick="setSpeed('low', this)">BAJO</button>
-                    <button class="speed-btn" onclick="setSpeed('med', this)">MEDIO</button>
-                    <button class="speed-btn" onclick="setSpeed('high', this)">RÁPIDO</button>
-                </div>
+            <p class="control-label">CONTROL DE VELOCIDAD</p>
+            <div class="controls-grid">
+                <button class="speed-btn active btn-off" onclick="setSpeed('off', this)">OFF</button>
+                <button class="speed-btn" onclick="setSpeed('low', this)">LENTO</button>
+                <button class="speed-btn" onclick="setSpeed('med', this)">MEDIO</button>
+                <button class="speed-btn" onclick="setSpeed('high', this)">RÁPIDO</button>
+                <button id="btn-osc" class="speed-btn btn-osc-style" onclick="toggleOscillation()">OSCILACIÓN: OFF</button>
             </div>
 
             <div class="mode-selector">
@@ -68,7 +60,7 @@
                     <i class="fa-solid fa-clock"></i> POR HORA
                 </button>
                 <button id="tab-temp" class="tab-btn" onclick="toggleMode('temp')">
-                    <i class="fa-solid fa-thermometer-half"></i> POR TEMP
+                    <i class="fa-solid fa-temperature-high"></i> POR TEMP
                 </button>
             </div>
 
@@ -77,12 +69,16 @@
                     <div class="timer-flex">
                         <div class="time-item">
                             <label>ENCENDIDO</label>
-                            <input type="time" id="time-start" value="08:00">
+                            <div class="input-row">
+                                <input type="time" id="time-start" value="08:00">
+                            </div>
                         </div>
                         <div class="v-divider"></div>
                         <div class="time-item">
                             <label>APAGADO</label>
-                            <input type="time" id="time-end" value="22:00">
+                            <div class="input-row">
+                                <input type="time" id="time-end" value="22:00">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,31 +88,24 @@
                         <label>UMBRAL DE ACTIVACIÓN</label>
                         <div class="temp-input-wrap">
                             <input type="number" id="temp-val" value="28">
-                            <span class="celsius-label">°C</span>
+                            <span class="unit">°C</span>
                         </div>
                     </div>
                 </div>
-
+                
                 <button class="btn-save-action" onclick="saveData()">GUARDAR AJUSTES</button>
             </div>
         </section>
 
         <div id="modal-wifi" class="modal hidden">
             <div class="modal-content">
-                <h3><i class="fa-solid fa-wifi"></i> Ajustes de Red</h3>
-                <p>Configure la red para el ESP32</p>
-                <div class="input-group">
-                    <input type="text" id="wifi-ssid" placeholder="Nombre de Red (SSID)">
-                    <input type="password" id="wifi-pass" placeholder="Contraseña">
-                </div>
-                <div class="modal-actions">
-                    <button class="btn-save-action" onclick="saveWifi()">ACTUALIZAR WIFI</button>
-                    <button class="btn-cancel" onclick="closeWifiModal()">CANCELAR</button>
-                </div>
-                <hr class="modal-hr">
-                <button class="btn-reset" onclick="factoryReset()">
-                    <i class="fa-solid fa-triangle-exclamation"></i> RESET DE FÁBRICA
-                </button>
+                <h3>Configuración WiFi</h3>
+                <input type="text" id="wifi-ssid" placeholder="Nombre de Red">
+                <input type="password" id="wifi-pass" placeholder="Contraseña">
+                <button class="btn-primary-large" onclick="saveWifi()">CONECTAR</button>
+                <button class="btn-cancel" onclick="closeWifiModal()">CERRAR</button>
+                <hr>
+                <button class="btn-reset" onclick="factoryReset()">RESET DE FÁBRICA</button>
             </div>
         </div>
     </div>
